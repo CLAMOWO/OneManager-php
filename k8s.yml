@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: OneManager-php
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: OneManager-php
+  template:
+    metadata:
+      labels:
+        app: OneManager-php
+    spec:
+      containers:
+      - image: CLAMOWO/OneManager-php
+        name: OneManager-php
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: OneManager-php
+  annotations:
+    dev.okteto.com/auto-ingress: "true"
+spec:
+  type: ClusterIP  
+  ports:
+  - name: "OneManager-php"
+    port: 8080
+  selector:
+    app: OneManager-php
